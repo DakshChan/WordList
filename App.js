@@ -22,7 +22,6 @@ export default function App() {
             <HomeScreen words={words} setWords={setWords}/>
             <StatusBar/>
         </View>
-
     );
 }
 

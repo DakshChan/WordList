@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, FlatList, SafeAreaView, StyleSheet} from "react-native";
+import {Text, View, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, useColorScheme} from "react-native";
 
 import {SwipeListView} from "react-native-swipe-list-view";
 
@@ -9,15 +9,16 @@ import {PlusButton} from "../components/Buttons";
 
 export default function HomeScreen({words, setWords}) {
     const renderItem = (data) => <WordBlock word={data.item.word} description={data.item.description} />;
+    const colorScheme = useColorScheme();
+    const style = colorScheme === 'light' ? styles.light : styles.dark;
 
     return (
-        <SafeAreaView style={styles.screen}>
-            <Header name={"Home"}/>
-            {/*<FlatList data={words} renderItem={renderItem}/>*/}
+        <SafeAreaView style={[styles.screen, style]}>
+            <Header name={"Home" + colorScheme}/>
             <SwipeListView
                 data={words}
                 renderItem={ (data, rowMap) => (
-                    <WordBlock word={data.item.word} description={data.item.description} />
+                    <WordBlock word={data.item.word} description={data.item.description}/>
                 )}
                 renderHiddenItem={ (data, rowMap) => (
                     <WordBlockHidden/>
@@ -25,16 +26,21 @@ export default function HomeScreen({words, setWords}) {
                 leftOpenValue={75}
                 rightOpenValue={-75}
             />
-            <View style={styles.button}>
+            <TouchableOpacity style={styles.button}>
                 <PlusButton/>
-            </View>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    screen: {
+    dark: {
+        backgroundColor: '#2b2b2b',
+    },
+    light: {
         backgroundColor: '#E5E7EB',
+    },
+    screen: {
         height: '100%',
     },
     button: {
